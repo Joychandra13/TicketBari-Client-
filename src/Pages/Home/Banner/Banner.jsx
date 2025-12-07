@@ -43,14 +43,14 @@ const Banner = () => {
         interval={3500}
       >
         {bannerData.map((item) => (
-          <div key={item.id} className=' bg-gray-50 flex items-center px-6 lg:px-16 xl:px-0 py-20 min-h-[650px] md:min-h-[750px] lg:min-h-[450px]'>
-            <div className="flex flex-col-reverse lg:flex-row items-center gap-6 max-w-7xl mx-auto">
+          <div key={item.id} className=' bg-gray-50 flex items-center mt-20 min-h-[650px] md:min-h-[750px] lg:min-h-[450px]'>
+            <div className="flex flex-col-reverse lg:flex-row items-center px-6 lg:px-16 xl:px-0 py-20 gap-6 max-w-7xl mx-auto">
               {/* Left Side - Text */}
               <div className="flex-1 text-center lg:text-left">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-400 lg:max-w-xl">
+                <h2 className="title">
                   {item.title}
                 </h2>
-                <p className="text-gray-400 mb-5 text-sm lg:text-base lg:max-w-lg">
+                <p className="subTitle">
                   {item.subtitle}
                 </p>
 
