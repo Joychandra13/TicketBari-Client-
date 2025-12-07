@@ -10,10 +10,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-10 px-4">
         {/* Column 1: Logo + description */}
         <div>
-          <Link to="/">
             <Logo />
-          </Link>
-          <p className="text-sm">
+          <p className="text-sm mt-2">
             Book bus, train, launch & flight tickets easily.
           </p>
         </div>
@@ -23,16 +21,16 @@ const Footer = () => {
           <h3 className="font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a className="hover:text-gray-500">Home</a>
+              <Link to="/" className="hover:text-gray-500">Home</Link>
             </li>
             <li>
-              <a className="hover:text-gray-500">All Tickets</a>
+              <Link to="/tickets" className="hover:text-gray-500">All Tickets</Link>
             </li>
             <li>
-              <a className="hover:text-gray-500">Contact Us</a>
+              <Link to="/contact" className="hover:text-gray-500">Contact Us</Link>
             </li>
             <li>
-              <a className="hover:text-gray-500">About</a>
+              <Link to="/about" className="hover:text-gray-500">About</Link>
             </li>
           </ul>
         </div>
@@ -42,14 +40,16 @@ const Footer = () => {
           <h3 className="font-semibold mb-3">Contact Info</h3>
           <ul className="space-y-2 text-sm">
             <li className="hover:text-gray-500 flex items-center gap-2">
-              <MdEmail /> Email: support@ticketbari.com
+              <MdEmail /> support@ticketbari.com
             </li>
             <li className="hover:text-gray-500 flex items-center gap-2">
-              <FaPhoneAlt /> Phone: +880 1234-567890
+              <FaPhoneAlt /> +880 1234-567890
             </li>
             <li>
               <a
                 href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-gray-500 flex items-center gap-2"
               >
                 <FaFacebook /> Facebook Page

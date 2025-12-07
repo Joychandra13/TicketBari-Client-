@@ -1,39 +1,55 @@
 import React from "react";
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 import Logo from "../../../components/Logo";
 
 const NavBar = () => {
   const links = (
     <>
       <li>
-        <Link to='/' className={({ isActive }) =>
-            isActive ? "activeNav" : "text-gray-500"
-          }>Home</Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
+        >
+          Home
+        </NavLink>
       </li>
       <li>
-        <a className={({ isActive }) =>
-            isActive ? "activeNav" : "text-gray-500"
-          }>All Tickets</a>
+        <NavLink
+          to="/tickets"
+          className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
+        >
+          All Tickets
+        </NavLink>
       </li>
       <li>
-        <a className={({ isActive }) =>
-            isActive ? "activeNav" : "text-gray-500"
-          }>Dashboard</a>
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
+        >
+          Dashboard
+        </NavLink>
       </li>
       <li>
-        <a className={({ isActive }) =>
-            isActive ? "activeNav" : "text-gray-500"
-          }>About</a>
+        <NavLink
+          to="/about"
+          className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
+        >
+          About
+        </NavLink>
       </li>
       <li>
-        <a className={({ isActive }) =>
-            isActive ? "activeNav" : "text-gray-500"
-          }>Contact Us</a>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
+        >
+          Contact Us
+        </NavLink>
       </li>
     </>
   );
+
   return (
-    <div className="bg-base-50 text-gray-400 shadow-sm shadow-gray-400">
+    <div className="bg-base-50 text-gray-400 shadow-sm shadow-gray-400 sticky top-0 z-50">
       <div className="navbar max-w-7xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -45,31 +61,33 @@ const NavBar = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                {" "}
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
+                />
               </svg>
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
             >
-                {links}
+              {links}
             </ul>
           </div>
           <Logo />
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            {links}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <a className="button">Login</a>
+          <NavLink
+            to="/login"
+            className="button"
+          >
+            Login
+          </NavLink>
         </div>
       </div>
     </div>
