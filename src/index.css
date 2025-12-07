@@ -1,2 +1,11 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui"{
+  themes: light --default;
+ }
+
+*{
+  @apply font-mono ;
+}
+.button{
+  @apply btn text-gray-400 bg-gray-100 shadow-sm shadow-gray-400 hover:bg-gray-200 duration-300;
+}
