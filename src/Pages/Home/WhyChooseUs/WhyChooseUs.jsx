@@ -6,7 +6,7 @@ const WhyChooseUs = () => {
     <section className=" bg-gray-50">
       <div className="max-w-7xl mx-auto pt-10 pb-20 px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {" "}
-        <div className="order-2 md:order-1">
+        <div className="order-2 md:order-1 flex-1">
           <h2 className="title">Why Choose TicketBari?</h2>
           <p className="subTitle">
             We make your travel booking easier, faster and more reliable.
@@ -20,7 +20,7 @@ const WhyChooseUs = () => {
           </ul>
         </div>
         {/* Right Image */}
-        <div className="order-1 md:order-2">
+        <div className="order-1 md:order-2 border border-gray-500 flex-1">
           <DotLottieReact
             src="https://lottie.host/39ef3cda-785c-48e5-95e7-ef46ad901a4f/oT0wjIUF2K.lottie"
             loop
