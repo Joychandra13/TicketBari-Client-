@@ -39,7 +39,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/contact"
+          to="/contact-us"
           className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
         >
           Contact Us
