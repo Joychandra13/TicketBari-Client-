@@ -11,7 +11,7 @@ const Banner = () => {
       subtitle: "Bus, train, launch, and flight tickets — all in one platform. Enjoy hassle-free booking, instant confirmation, and secure payments for all your travels.",
       lottieUrl: "https://lottie.host/3d00044d-cd9c-4610-ae46-247ce19001d9/6zsbDVucn3.lottie",
       buttonText: "Search Tickets",
-      buttonLink: "/tickets",
+      buttonLink: "/all-tickets",
     },
     {
       id: 2,
@@ -20,7 +20,7 @@ const Banner = () => {
         "Discover routes, compare prices, and book instantly. Find the best deals across buses, trains, launches, and flights throughout Bangladesh without any hassle.",
       lottieUrl: "https://lottie.host/16d20b3f-eca9-429e-aa17-4d1cc945c6da/wtwbLzlMv6.lottie",
       buttonText: "Browse Now",
-      buttonLink: "/tickets",
+      buttonLink: "/all-tickets",
     },
     {
       id: 3,
@@ -29,7 +29,7 @@ const Banner = () => {
         "Book the best travel tickets across Bangladesh with ease. Get real-time availability, secure payments, and instant e-tickets for your journey.",
       lottieUrl: "https://lottie.host/752f581d-ac6b-4afd-9220-210d1b307bd2/xXcWA9ldxX.lottie",
       buttonText: "Get Started",
-      buttonLink: "/signup",
+      buttonLink: "/register",
     },
   ];
 

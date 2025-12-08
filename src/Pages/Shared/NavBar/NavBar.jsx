@@ -15,7 +15,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/tickets"
+          to="/all-tickets"
           className={({ isActive }) => (isActive ? "activeNav" : "text-gray-500")}
         >
           All Tickets
