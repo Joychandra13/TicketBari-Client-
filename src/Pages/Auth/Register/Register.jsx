@@ -2,25 +2,68 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogIn from "../GoogleLogIn/GoogleLogIn";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { auth } from "../../../firebase/firebase.init";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile, setUser } = useAuth();
 
   const handleRegister = (data) => {
-    console.log("After Register", data);
+    const profileImg = data.photo[0];
+
     registerUser(data.email, data.password)
       .then((result) => {
-        console.log(result.user);
+        console.log("User created:", result.user);
+
+        // Upload image
+        const formData = new FormData();
+        formData.append("image", profileImg);
+
+        const image_API_URL = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host_Key
+        }`;
+
+        axios
+          .post(image_API_URL, formData)
+          .then((res) => {
+            const imageURL = res.data.data.url;
+            console.log("Image uploaded:", imageURL);
+
+            const userProfile = {
+              displayName: data.name,
+              photoURL: imageURL,
+            };
+
+            // Update Firebase profile
+            updateUserProfile(userProfile)
+              .then(() => {
+                // Force reload Firebase user
+                auth.currentUser.reload().then(() => {
+                  // Update Context instantly
+                  setUser({
+                    ...auth.currentUser,
+                    displayName: data.name,
+                    photoURL: imageURL,
+                  });
+
+                  // Navigate home
+                  navigate("/");
+                });
+              })
+              .catch((error) => console.log("Profile update error:", error));
+          })
+          .catch((error) => console.log("Image upload error:", error));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log("Register error:", error));
   };
 
   return (
@@ -57,11 +100,11 @@ const Register = () => {
               </p>
             )}
             <input
-              type="text"
-              name="photoURL"
-              placeholder="Photo URL"
-              {...register("photoURL")}
-              className="input w-full"
+              type="file"
+              className="file-input w-full text-gray-400"
+              name="photo"
+              placeholder="Your Photo"
+              {...register("photo")}
             />
 
             <input
