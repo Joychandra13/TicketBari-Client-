@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogIn from "../GoogleLogIn/GoogleLogIn";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { auth } from "../../../firebase/firebase.init";
 
 const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -56,7 +57,7 @@ const Register = () => {
                   });
 
                   // Navigate home
-                  navigate("/");
+                  navigate(location.state || '/');
                 });
               })
               .catch((error) => console.log("Profile update error:", error));

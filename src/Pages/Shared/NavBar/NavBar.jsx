@@ -112,7 +112,7 @@ const NavBar = () => {
 
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content rounded-md shadow-sm shadow-gray-400 hover:bg-gray-50 duration-300 bg-base-100 rounded-box z-10 mt-3 w-60 p-4 "
+                className="menu menu-sm dropdown-content rounded-md shadow-sm shadow-gray-400 hover:bg-gray-50 duration-300 bg-base-100 rounded-box z-10 mt-2 w-60 p-4 "
               >
                 <li className="text-center">
                   <Link to='/dashboard'
