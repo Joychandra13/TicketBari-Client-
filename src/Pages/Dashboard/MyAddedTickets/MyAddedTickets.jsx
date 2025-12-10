@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
+import Swal from "sweetalert2";
 
 const MyAddedTickets = () => {
   const { user } = useAuth();
   const axiosSecure = useAxios();
 
-  const { data: tickets = [] } = useQuery({
+  const { data: tickets = [], refetch } = useQuery({
     queryKey: ["myAddedTickets", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/tickets?email=${user.email}`);
@@ -23,6 +24,29 @@ const MyAddedTickets = () => {
   const handleDelete = (ticketId) => {
     // Call API to delete ticket
     console.log("Delete ticket", ticketId);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/tickets/${ticketId}`).then((res) => {
+          console.log(res.data);
+          refetch()
+          if (res.data.deletedCount) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
   };
 
   return (
