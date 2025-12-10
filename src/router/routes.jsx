@@ -4,10 +4,20 @@ import Home from "../Pages/Home/Home/Home";
 import About from "../Pages/About/About/About";
 import ContactUs from "../Pages/ContactUs/ContactUs/ContactUs";
 import AllTickets from "../Pages/AllTickets/AllTickets/AllTickets";
-import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import LogIn from "../Pages/Auth/LogIn/LogIn";
 import Register from "../Pages/Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../Layout/DashboardLayout";
+import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
+import MyBookedTickets from "../Pages/Dashboard/MyBookedTickets/MyBookedTickets";
+import TransactionHistory from "../Pages/Dashboard/TransactionHistory/TransactionHistory";
+import AddTicket from "../Pages/Dashboard/AddTicket/AddTicket";
+import MyAddedTickets from "../Pages/Dashboard/MyAddedTickets/MyAddedTickets";
+import RequestedBookings from "../Pages/Dashboard/RequestedBookings/RequestedBookings";
+import RevenueOverview from "../Pages/Dashboard/RevenueOverview/RevenueOverview";
+import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
+import ManageTickets from "../Pages/Dashboard/ManageTickets/ManageTickets";
+import AdvertiseTickets from "../Pages/Dashboard/AdvertiseTickets/AdvertiseTickets";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -30,10 +40,6 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><AllTickets /></PrivateRoute>,
       },
       {
-        path: "/dashboard",
-        element: <PrivateRoute><Dashboard /></PrivateRoute>,
-      },
-      {
         path: "/login",
         element: <LogIn />,
       },
@@ -43,4 +49,50 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:'dashboard',
+    element: <PrivateRoute><DashboardLayout/></PrivateRoute>,
+    children:[
+      {
+        path: 'my-profile', 
+        Component: MyProfile
+      },
+      {
+        path: 'my-booked-tickets', 
+        Component: MyBookedTickets
+      },
+      {
+        path: 'transaction-history', 
+        Component: TransactionHistory
+      },
+      {
+        path: 'add-ticket', 
+        Component: AddTicket
+      },
+      {
+        path: 'my-added-ticket', 
+        Component: MyAddedTickets
+      },
+      {
+        path: 'requested-bookings', 
+        Component: RequestedBookings
+      },
+      {
+        path: 'revenue-overview', 
+        Component: RevenueOverview
+      },
+      {
+        path: 'manage-users', 
+        Component: ManageUsers
+      },
+      {
+        path: 'manage-tickets', 
+        Component: ManageTickets
+      },
+      {
+        path: 'advertise-tickets', 
+        Component: AdvertiseTickets
+      },
+    ]
+  }
 ]);
