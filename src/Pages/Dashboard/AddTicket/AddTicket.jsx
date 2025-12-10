@@ -49,17 +49,21 @@ function AddTicket() {
   };
 
   return (
-    <div className="mt-20 py-20 px-4">
+    <div className=" py-20 px-4">
       <h1 className="title text-center">Add a New Ticket</h1>
       <p className="subTitle text-center">Fill in the ticket details below</p>
 
-      <div className="w-full max-w-md mx-auto card rounded-md shadow-sm shadow-gray-400 duration-300">
+      <div className="w-full max-w-2xl mx-auto card rounded-md shadow-sm shadow-gray-400 duration-300">
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)} className="fieldset space-y-3">
 
             <input {...register("title", { required: true })} placeholder="Ticket Title" className="input w-full" />
-            <input {...register("from", { required: true })} placeholder="From Location" className="input w-full" />
-            <input {...register("to", { required: true })} placeholder="To Location" className="input w-full" />
+
+            <div className="flex gap-3">
+                <input {...register("from", { required: true })} placeholder="From Location" className="input w-1/2" />
+            <input {...register("to", { required: true })} placeholder="To Location" className="input w-1/2" />
+            </div>
+            
 
             <select {...register("transport", { required: true })} className="select select-bordered w-full">
               <option value="">Select Transport Type</option>
@@ -69,8 +73,11 @@ function AddTicket() {
               <option>Air</option>
             </select>
 
-            <input type="number" {...register("price", { required: true })} placeholder="Price per unit" className="input w-full" />
+            <div className="flex gap-3">
+                 <input type="number" {...register("price", { required: true })} placeholder="Price per unit" className="input w-full" />
             <input type="number" {...register("quantity", { required: true })} placeholder="Ticket Quantity" className="input w-full" />
+            </div>
+           
             <input type="datetime-local" {...register("departure", { required: true })} className="input w-full" />
 
             <div className="space-y-1">
@@ -84,8 +91,11 @@ function AddTicket() {
 
             <input type="file" {...register("image", { required: true })} className="file-input w-full text-gray-400" />
 
-            <input readOnly value={user?.displayName || ""} className="input w-full bg-base-200" />
+            <div className="flex flex-col md:flex-row gap-3">
+                <input readOnly value={user?.displayName || ""} className="input w-full bg-base-200" />
             <input readOnly value={user?.email || ""} className="input w-full bg-base-200" />
+            </div>
+            
 
             <button type="submit" className="fullWidthButton mt-2">Add Ticket</button>
           </form>

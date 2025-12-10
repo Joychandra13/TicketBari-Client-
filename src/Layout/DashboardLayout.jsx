@@ -41,7 +41,7 @@ const DashboardLayout = () => {
         <Outlet></Outlet>
       </div>
 
-      <div className="drawer-side is-drawer-close:overflow-visible">
+      <div className="drawer-side shadow-gray-400  shadow-sm is-drawer-close:overflow-visible">
         <label
           htmlFor="my-drawer-4"
           aria-label="close sidebar"
