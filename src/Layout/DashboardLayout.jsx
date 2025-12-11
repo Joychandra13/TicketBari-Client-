@@ -3,6 +3,8 @@ import { CgProfile } from "react-icons/cg";
 import { FaHome } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoTicket } from "react-icons/io5";
+import { LuTicketPlus } from "react-icons/lu";
+import { VscRequestChanges } from "react-icons/vsc";
 import { Link, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -72,6 +74,28 @@ const DashboardLayout = () => {
                 {/*icon */}
                 <CgProfile />
                 <span className="is-drawer-close:hidden">My Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+              to='/dashboard/my-booked-tickets'
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Booked Tickets"
+              >
+                {/*icon */}
+                <LuTicketPlus />
+                <span className="is-drawer-close:hidden">My Booked Tickets</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+              to='/dashboard/requested-bookings'
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Requested Bookings"
+              >
+                {/*icon */}
+                <VscRequestChanges />
+                <span className="is-drawer-close:hidden">Requested Bookings</span>
               </Link>
             </li>
 

@@ -18,6 +18,7 @@ import RevenueOverview from "../Pages/Dashboard/RevenueOverview/RevenueOverview"
 import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
 import ManageTickets from "../Pages/Dashboard/ManageTickets/ManageTickets";
 import AdvertiseTickets from "../Pages/Dashboard/AdvertiseTickets/AdvertiseTickets";
+import TicketDetails from "../Pages/AllTickets/TicketDetails/TicketDetails";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-tickets",
         element: <PrivateRoute><AllTickets /></PrivateRoute>,
+      },
+      {
+        path: "/ticket/:id",
+        element: <PrivateRoute><TicketDetails/></PrivateRoute>,
       },
       {
         path: "/login",

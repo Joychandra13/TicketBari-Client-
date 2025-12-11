@@ -17,41 +17,56 @@ const MyAddedTicketsCard = ({ ticket, handleUpdate, handleDelete }) => {
         </p>
 
         <div className="flex gap-2">
-            <p className="text-gray-500 border text-center border-gray-500 flex-1"> Price: BDT {ticket.price}</p>
-            <p className="text-gray-500 border text-center border-gray-500 flex-1"> Quantity: {ticket.quantity}</p>
-
+          <p className="text-gray-500 border text-center border-gray-500 flex-1">
+            {" "}
+            Price: BDT {ticket.price}
+          </p>
+          <p className="text-gray-500 border text-center border-gray-500 flex-1">
+            {" "}
+            Quantity: {ticket.quantity}
+          </p>
         </div>
-        
-
-        <div className="flex items-center justify-between gap-4">
-        <p className="text-gray-500">
-         Status:{" "}
-          <span
-            className={`font-semibold ${
-              ticket.status === "approved"
-                ? "text-green-500"
-                : ticket.status === "rejected"
-                ? "text-red-500"
-                : "text-yellow-500"
-            }`}
-          >
-            {ticket.status}
-          </span>
+        <p className="text-gray-400">
+          Departure:
+          {new Date(ticket.departure).toLocaleString("en-BD", {
+            timeZone: "Asia/Dhaka",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </p>
 
-        {/* Display perks */}
-        {ticket.perks && ticket.perks.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {ticket.perks.map((perk, index) => (
-              <span
-                key={index}
-                className="bg-gray-300 text-gray-500 text-xs font-semibold px-2 py-1 rounded-sm"
-              >
-                {perk}
-              </span>
-            ))}
-          </div>
-        )}
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-gray-500">
+            Status:{" "}
+            <span
+              className={`font-semibold ${
+                ticket.status === "approved"
+                  ? "text-green-500"
+                  : ticket.status === "rejected"
+                  ? "text-red-500"
+                  : "text-yellow-500"
+              }`}
+            >
+              {ticket.status}
+            </span>
+          </p>
+
+          {/* Display perks */}
+          {ticket.perks && ticket.perks.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {ticket.perks.map((perk, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-300 text-gray-500 text-xs font-semibold px-2 py-1 rounded-sm"
+                >
+                  {perk}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="card-actions mt-3 flex gap-2">

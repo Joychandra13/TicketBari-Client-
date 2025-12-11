@@ -19,3 +19,7 @@
 .subTitle{
   @apply text-gray-400 mb-5 text-sm lg:text-base ;
 }
+
+.CountdownTimerBox{
+  @apply flex flex-col p-2 btn text-gray-400 bg-gray-100 h-fit shadow-sm shadow-gray-400 hover:bg-gray-200 duration-300;
+}
