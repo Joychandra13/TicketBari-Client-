@@ -46,7 +46,7 @@ const Register = () => {
             const userInfo = {
               email: data.email,
               displayName: data.name,
-              photoURL: photoURL,
+              photoURL: imageURL,
             };
             axiosSecure.post("/users", userInfo).then((res) => {
               if (res.data.insertedId) {
@@ -54,7 +54,7 @@ const Register = () => {
               }
             });
 
-            
+
             const userProfile = {
               displayName: data.name,
               photoURL: imageURL,

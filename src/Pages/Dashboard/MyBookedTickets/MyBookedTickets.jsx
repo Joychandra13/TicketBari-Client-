@@ -1,28 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../hooks/useAxios";
 import BookedCountdownTimer from "../../../components/BookedCountdownTimer";
 import { Link } from "react-router";
+import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 
 const MyBookedTickets = () => {
+  const { user } = useContext(AuthContext); // Get logged-in user
   const axios = useAxios();
 
-  // Fetch all bookings for the logged-in user
+  // Fetch bookings for this user only
   const {
     data: bookings = [],
     refetch,
     isLoading,
   } = useQuery({
-    queryKey: ["bookings"],
+    queryKey: ["bookings", user?.email],
     queryFn: async () => {
-      const res = await axios.get("/bookings");
+      if (!user?.email) return [];
+      const res = await axios.get(`/bookings?email=${user.email}`);
       return res.data;
     },
+    enabled: !!user?.email, // Only run if user email exists
   });
 
   if (isLoading) return <p className="text-center py-10">Loading...</p>;
   if (!bookings.length)
-    return <p className="text-center text-gray-400 py-10">No bookings found</p>;
+    return (
+      <p className="text-center text-gray-400 py-10">
+        No bookings found
+      </p>
+    );
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -40,7 +48,7 @@ const MyBookedTickets = () => {
                 ({b.from} → {b.to})
               </span>
             </h2>
-            <p></p>
+
             <p>
               Quantity: {b.quantity} | Total: BDT {b.quantity * b.price}
             </p>

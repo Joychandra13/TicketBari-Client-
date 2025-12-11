@@ -38,7 +38,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/dashboard"
+          to="/dashboard/my-profile"
           className={({ isActive }) =>
             isActive ? "activeNav" : "text-gray-500"
           }

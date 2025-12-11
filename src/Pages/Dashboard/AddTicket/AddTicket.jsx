@@ -1,8 +1,8 @@
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
-import axios from "axios";
 import useAxios from "../../../hooks/useAxios";
+import axios from "axios";
 
 const imageHostKey = import.meta.env.VITE_image_host_Key;
 
@@ -10,6 +10,33 @@ function AddTicket() {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxios();
   const { register, handleSubmit, reset } = useForm();
+  const [isFraud, setIsFraud] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!user?.email) return;
+      try {
+        const res = await axiosSecure.get(`/users/${user.email}`);
+        setIsFraud(res.data.isFraud);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, [user, axiosSecure]);
+
+  if (loading) return <p>Loading...</p>;
+
+  if (isFraud) {
+    return (
+      <p className="text-red-500 flex min-h-screen justify-center items-center">
+        You are restricted from adding tickets.
+      </p>
+    );
+  }
 
   const onSubmit = async (data) => {
     try {
@@ -17,7 +44,6 @@ function AddTicket() {
       const formData = new FormData();
       formData.append("image", imageFile);
 
-      // Upload to ImgBB
       const { data: imgData } = await axios.post(
         `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
         formData
@@ -39,33 +65,47 @@ function AddTicket() {
         createdAt: new Date(),
       };
 
-      const res = await axiosSecure.post("/tickets", ticket);
-      console.log("After saving ticket:", res.data);
+      await axiosSecure.post("/tickets", ticket);
       alert("Ticket Added Successfully!");
       reset();
-    } catch (error) {
-      console.error("Error adding ticket:", error);
+    } catch (err) {
+      console.error("Error adding ticket:", err);
     }
   };
 
   return (
-    <div className=" py-20 px-4">
+    <div className="py-20 px-4">
       <h1 className="title text-center">Add a New Ticket</h1>
       <p className="subTitle text-center">Fill in the ticket details below</p>
-
       <div className="w-full max-w-2xl mx-auto card rounded-md shadow-sm shadow-gray-400 duration-300">
         <div className="card-body">
-          <form onSubmit={handleSubmit(onSubmit)} className="fieldset space-y-3">
-
-            <input {...register("title", { required: true })} placeholder="Ticket Title" className="input w-full" />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="fieldset space-y-3"
+          >
+            <input
+              {...register("title", { required: true })}
+              placeholder="Ticket Title"
+              className="input w-full"
+            />
 
             <div className="flex gap-3">
-                <input {...register("from", { required: true })} placeholder="From Location" className="input w-1/2" />
-            <input {...register("to", { required: true })} placeholder="To Location" className="input w-1/2" />
+              <input
+                {...register("from", { required: true })}
+                placeholder="From Location"
+                className="input w-1/2"
+              />
+              <input
+                {...register("to", { required: true })}
+                placeholder="To Location"
+                className="input w-1/2"
+              />
             </div>
-            
 
-            <select {...register("transport", { required: true })} className="select select-bordered w-full">
+            <select
+              {...register("transport", { required: true })}
+              className="select select-bordered w-full"
+            >
               <option value="">Select Transport Type</option>
               <option>Bus</option>
               <option>Train</option>
@@ -74,30 +114,69 @@ function AddTicket() {
             </select>
 
             <div className="flex gap-3">
-                 <input type="number" {...register("price", { required: true })} placeholder="Price per unit" className="input w-full" />
-            <input type="number" {...register("quantity", { required: true })} placeholder="Ticket Quantity" className="input w-full" />
+              <input
+                type="number"
+                {...register("price", { required: true })}
+                placeholder="Price per unit"
+                className="input w-full"
+              />
+              <input
+                type="number"
+                {...register("quantity", { required: true })}
+                placeholder="Ticket Quantity"
+                className="input w-full"
+              />
             </div>
-           
-            <input type="datetime-local" {...register("departure", { required: true })} className="input w-full" />
+
+            <input
+              type="datetime-local"
+              {...register("departure", { required: true })}
+              className="input w-full"
+            />
 
             <div className="space-y-1">
               <label className="font-semibold block">Perks</label>
               <div className="flex gap-3">
-                <label><input type="checkbox" value="AC" {...register("perks")} /> AC</label>
-                <label><input type="checkbox" value="Breakfast" {...register("perks")} /> Breakfast</label>
-                <label><input type="checkbox" value="WiFi" {...register("perks")} /> WiFi</label>
+                <label>
+                  <input type="checkbox" value="AC" {...register("perks")} /> AC
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Breakfast"
+                    {...register("perks")}
+                  />{" "}
+                  Breakfast
+                </label>
+                <label>
+                  <input type="checkbox" value="WiFi" {...register("perks")} />{" "}
+                  WiFi
+                </label>
               </div>
             </div>
 
-            <input type="file" {...register("image", { required: true })} className="file-input w-full text-gray-400" />
+            <input
+              type="file"
+              {...register("image", { required: true })}
+              className="file-input w-full text-gray-400"
+            />
 
             <div className="flex flex-col md:flex-row gap-3">
-                <input readOnly value={user?.displayName || ""} className="input w-full bg-base-200" />
-            <input readOnly value={user?.email || ""} className="input w-full bg-base-200" />
+              <input
+                readOnly
+                value={user?.displayName || ""}
+                className="input w-full bg-base-200"
+              />
+              <input
+                readOnly
+                value={user?.email || ""}
+                className="input w-full bg-base-200"
+              />
             </div>
-            
 
-            <button type="submit" className="fullWidthButton mt-2">Add Ticket</button>
+            <button type="submit" className="fullWidthButton mt-2">
+              Add Ticket
+            </button>
           </form>
         </div>
       </div>

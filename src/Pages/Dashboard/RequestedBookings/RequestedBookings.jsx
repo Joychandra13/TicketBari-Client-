@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import useAxios from "../../../hooks/useAxios";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 
 const RequestedBookings = () => {
   const axiosSecure = useAxios();
+  const { user } = useContext(AuthContext); // get logged-in vendor
   const [bookings, setBookings] = useState([]);
 
   const { data = [], refetch, isLoading } = useQuery({
@@ -15,17 +17,18 @@ const RequestedBookings = () => {
     },
   });
 
-  // Sync query data to local state
+  // Filter bookings by vendorEmail
   useEffect(() => {
-    setBookings(data);
-  }, [data]);
+    if (user?.email) {
+      const vendorBookings = data.filter((b) => b.vendorEmail === user.email);
+      setBookings(vendorBookings);
+    }
+  }, [data, user]);
 
   const handleStatusChange = async (id, status) => {
     try {
       await axiosSecure.put(`/bookings/${id}`, { status });
       Swal.fire("Success", `Booking ${status.toLowerCase()}!`, "success");
-    //   // Remove the updated booking from local state immediately
-    //   setBookings(prev => prev.filter(b => b._id !== id));
       refetch();
     } catch (err) {
       console.error(err);
@@ -34,7 +37,8 @@ const RequestedBookings = () => {
   };
 
   if (isLoading) return <p className="text-center py-10">Loading...</p>;
-  if (!bookings.length) return <p className="text-center py-10">No pending bookings</p>;
+  if (!bookings.length)
+    return <p className="text-center py-10">No pending bookings</p>;
 
   return (
     <div className="overflow-x-auto w-full">

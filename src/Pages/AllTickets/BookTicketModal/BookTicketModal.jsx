@@ -28,6 +28,7 @@ const BookTicketModal = ({ ticket, onClose, refetch }) => {
         departure: ticket.departure,
         status: "Pending",
         createdAt: new Date(),
+        vendorEmail:ticket.vendorEmail,
         userName: user?.displayName,
         userEmail: user?.email,
       };

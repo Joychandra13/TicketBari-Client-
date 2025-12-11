@@ -1,14 +1,17 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaChartPie, FaHistory, FaHome } from "react-icons/fa";
+import { FaUserGear } from "react-icons/fa6";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoTicket } from "react-icons/io5";
 import { LuTicketPlus } from "react-icons/lu";
 import { MdPayments } from "react-icons/md";
 import { VscRequestChanges } from "react-icons/vsc";
 import { Link, Outlet } from "react-router";
+import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -39,7 +42,6 @@ const DashboardLayout = () => {
           <div className="px-4 text-gray-500">Ticket Bari Dashboard</div>
         </nav>
 
-
         {/* Page content here */}
         <Outlet></Outlet>
       </div>
@@ -56,7 +58,7 @@ const DashboardLayout = () => {
             {/* List item */}
             <li>
               <Link
-              to='/'
+                to="/"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Homepage"
               >
@@ -68,7 +70,7 @@ const DashboardLayout = () => {
 
             <li>
               <Link
-              to='/dashboard/my-profile'
+                to="/dashboard/my-profile"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="My Profile"
               >
@@ -77,76 +79,112 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">My Profile</span>
               </Link>
             </li>
-            <li>
+
+
+            {
+              role === "user" && <>
+              <li>
               <Link
-              to='/dashboard/my-booked-tickets'
+                to="/dashboard/my-booked-tickets"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="My Booked Tickets"
               >
                 {/*icon */}
                 <LuTicketPlus />
-                <span className="is-drawer-close:hidden">My Booked Tickets</span>
+                <span className="is-drawer-close:hidden">
+                  My Booked Tickets
+                </span>
               </Link>
             </li>
             <li>
               <Link
-              to='/dashboard/requested-bookings'
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Requested Bookings"
-              >
-                {/*icon */}
-                <VscRequestChanges />
-                <span className="is-drawer-close:hidden">Requested Bookings</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link
-              to='/dashboard/add-ticket'
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Add Ticket"
-              >
-                {/*icon */}
-                <IoMdAddCircle />
-                <span className="is-drawer-close:hidden">Add Ticket</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-              to='/dashboard/my-added-ticket'
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="My Added Tickets"
-              >
-                {/*icon */}
-                <IoTicket />
-                <span className="is-drawer-close:hidden">My Added Tickets</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link
-              to='/dashboard/transaction-history'
+                to="/dashboard/transaction-history"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Transaction History"
               >
                 {/*icon */}
                 <MdPayments />
-                <span className="is-drawer-close:hidden">Transaction History</span>
+                <span className="is-drawer-close:hidden">
+                  Transaction History
+                </span>
               </Link>
             </li>
+              </>
+            }
 
-            <li>
+            {role === "vendor" && 
+              <>
+                <li>
+                  <Link
+                    to="/dashboard/requested-bookings"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Requested Bookings"
+                  >
+                    {/*icon */}
+                    <VscRequestChanges />
+                    <span className="is-drawer-close:hidden">
+                      Requested Bookings
+                    </span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/dashboard/add-ticket"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Add Ticket"
+                  >
+                    {/*icon */}
+                    <IoMdAddCircle />
+                    <span className="is-drawer-close:hidden">Add Ticket</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/my-added-ticket"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Added Tickets"
+                  >
+                    {/*icon */}
+                    <IoTicket />
+                    <span className="is-drawer-close:hidden">
+                      My Added Tickets
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/revenue-overview"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="RevenueOverview"
+                  >
+                    {/*icon */}
+                    <FaChartPie />
+                    <span className="is-drawer-close:hidden">
+                      Revenue Overview
+                    </span>
+                  </Link>
+                </li>
+              </>
+            }
+
+
+            {
+              role === 'admin' && <>
+              <li>
               <Link
-              to='/dashboard/revenue-overview'
+                to="/dashboard/manage-users"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="RevenueOverview"
               >
                 {/*icon */}
-                <FaChartPie />
-                <span className="is-drawer-close:hidden">Revenue Overview</span>
+                <FaUserGear />
+                <span className="is-drawer-close:hidden">Manage Users</span>
               </Link>
             </li>
-
+              </>
+            }
+            
           </ul>
         </div>
       </div>
