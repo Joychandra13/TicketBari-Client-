@@ -19,6 +19,9 @@ import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
 import ManageTickets from "../Pages/Dashboard/ManageTickets/ManageTickets";
 import AdvertiseTickets from "../Pages/Dashboard/AdvertiseTickets/AdvertiseTickets";
 import TicketDetails from "../Pages/AllTickets/TicketDetails/TicketDetails";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentCancelled from "../Pages/Dashboard/Payment/PaymentCancelled";
+import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -65,6 +68,18 @@ export const router = createBrowserRouter([
       {
         path: 'my-booked-tickets', 
         Component: MyBookedTickets
+      },
+      {
+        path: 'payment/:ticketId',
+        Component: Payment
+      },
+      {
+        path: 'payment-Cancelled',
+        Component: PaymentCancelled
+      },
+      {
+        path: 'payment-success',
+        Component: PaymentSuccess
       },
       {
         path: 'transaction-history', 

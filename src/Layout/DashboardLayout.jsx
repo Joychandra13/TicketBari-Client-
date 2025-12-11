@@ -1,9 +1,10 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
-import { FaHome } from "react-icons/fa";
+import { FaHistory, FaHome } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoTicket } from "react-icons/io5";
 import { LuTicketPlus } from "react-icons/lu";
+import { MdPayments } from "react-icons/md";
 import { VscRequestChanges } from "react-icons/vsc";
 import { Link, Outlet } from "react-router";
 
@@ -119,6 +120,18 @@ const DashboardLayout = () => {
                 {/*icon */}
                 <IoTicket />
                 <span className="is-drawer-close:hidden">My Added Tickets</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+              to='/dashboard/transaction-history'
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Transaction History"
+              >
+                {/*icon */}
+                <MdPayments />
+                <span className="is-drawer-close:hidden">Transaction History</span>
               </Link>
             </li>
 
