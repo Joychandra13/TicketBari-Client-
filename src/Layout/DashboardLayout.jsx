@@ -1,6 +1,6 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
-import { FaHistory, FaHome } from "react-icons/fa";
+import { FaChartPie, FaHistory, FaHome } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoTicket } from "react-icons/io5";
 import { LuTicketPlus } from "react-icons/lu";
@@ -132,6 +132,18 @@ const DashboardLayout = () => {
                 {/*icon */}
                 <MdPayments />
                 <span className="is-drawer-close:hidden">Transaction History</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+              to='/dashboard/revenue-overview'
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="RevenueOverview"
+              >
+                {/*icon */}
+                <FaChartPie />
+                <span className="is-drawer-close:hidden">Revenue Overview</span>
               </Link>
             </li>
 

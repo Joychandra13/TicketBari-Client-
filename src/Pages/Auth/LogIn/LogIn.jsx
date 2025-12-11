@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogIn from "../GoogleLogIn/GoogleLogIn";
 import { useLocation, useNavigate } from "react-router";
+import useAxios from "../../../hooks/useAxios";
 
 const LogIn = () => {
-const navigate = useNavigate();
-const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxios();
 
   const {
     register,
@@ -21,7 +23,17 @@ const location = useLocation();
     signInUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
-        navigate(location?.state || '/')
+
+        // create user in the database
+        const userInfo = {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        };
+        axiosSecure.post("/users", userInfo).then((res) => {
+          console.log("user created in the database", res.data);
+          navigate(location.state || "/");
+        });
       })
       .catch((error) => {
         console.log(error);

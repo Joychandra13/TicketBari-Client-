@@ -5,10 +5,12 @@ import GoogleLogIn from "../GoogleLogIn/GoogleLogIn";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { auth } from "../../../firebase/firebase.init";
+import useAxios from "../../../hooks/useAxios";
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxios();
 
   const {
     register,
@@ -39,6 +41,20 @@ const Register = () => {
             const imageURL = res.data.data.url;
             console.log("Image uploaded:", imageURL);
 
+
+            // create user in the database
+            const userInfo = {
+              email: data.email,
+              displayName: data.name,
+              photoURL: photoURL,
+            };
+            axiosSecure.post("/users", userInfo).then((res) => {
+              if (res.data.insertedId) {
+                console.log("user created in the database");
+              }
+            });
+
+            
             const userProfile = {
               displayName: data.name,
               photoURL: imageURL,
@@ -57,7 +73,7 @@ const Register = () => {
                   });
 
                   // Navigate home
-                  navigate(location.state || '/');
+                  navigate(location.state || "/");
                 });
               })
               .catch((error) => console.log("Profile update error:", error));
