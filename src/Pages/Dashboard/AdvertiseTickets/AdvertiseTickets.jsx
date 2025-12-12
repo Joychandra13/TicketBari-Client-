@@ -55,14 +55,14 @@ const AdvertiseTickets = () => {
     return <p className="text-center py-10">No approved tickets found.</p>;
 
   return (
-    <div className="max-w-7xl mx-auto pt-20 pb-10 px-6">
+    <div className="max-w-7xl mx-auto pt-20 pb-10 px-6 ">
       <h1 className="title text-center">Advertise Tickets</h1>
       <p className="subTitle text-center mb-6">
         Admin can advertise or unadvertise approved tickets. Max 6 tickets at a time.
       </p>
 
-      <div className="overflow-x-auto w-full">
-        <table className="table table-zebra w-full">
+      <div className="overflow-x-auto w-full ">
+        <table className="table table-zebra w-full dark:bg-white dark:p-5">
           <thead>
             <tr>
               <th>#</th>

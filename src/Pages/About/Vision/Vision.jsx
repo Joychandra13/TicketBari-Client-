@@ -5,7 +5,7 @@ const Vision = () => {
   return (
     <section className="max-w-7xl mx-auto py-16 px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
       {/* Left Image */}
-      <div className="border border-gray-500">
+      <div className="border border-gray-500 bg-white">
         <DotLottieReact
           src="https://lottie.host/6e797189-5e1d-4924-92ee-edee7ea3f4bb/KgF5yEUiO1.lottie"
           loop

@@ -49,7 +49,7 @@ const Banner = () => {
       {bannerData.map((item) => (
         <div
           key={item.id}
-          className=" bg-gray-50 flex items-center mt-20 min-h-[766px] md:min-h-[750px] lg:min-h-[450px]"
+          className=" bg-gray-50  flex items-center mt-20 min-h-[766px] dark:bg-neutral-950 dark:shadow-black md:min-h-[750px] lg:min-h-[450px]"
         >
           <div className="flex flex-col-reverse lg:flex-row items-center px-6 lg:px-16 xl:px-0 py-20 gap-6 max-w-7xl mx-auto">
             {/* Left Side - Text */}

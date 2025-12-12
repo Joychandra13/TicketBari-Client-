@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../hooks/useAxios";
 import TicketCard from "../../../components/TicketCard";
+import Loading from "../../../components/Loading";
 
 const LatestTicketsSection = () => {
   const axiosSecure = useAxios();
@@ -14,7 +15,7 @@ const LatestTicketsSection = () => {
     },
   });
 
-  if (isLoading) return <p className="text-center py-10">Loading...</p>;
+  if (isLoading) return <Loading/>;
 
   // Sort by creation date descending and get latest 6 tickets
   const latestTickets = tickets

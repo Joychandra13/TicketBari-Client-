@@ -22,10 +22,12 @@ import TicketDetails from "../Pages/AllTickets/TicketDetails/TicketDetails";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentCancelled from "../Pages/Dashboard/Payment/PaymentCancelled";
 import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
+import Error from "../Pages/Error/Error";
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement:<Error/>,
     children: [
       {
         index: true,
@@ -60,6 +62,7 @@ export const router = createBrowserRouter([
   {
     path:'dashboard',
     element: <PrivateRoute><DashboardLayout/></PrivateRoute>,
+    errorElement:<Error/>,
     children:[
       {
         path: 'my-profile', 

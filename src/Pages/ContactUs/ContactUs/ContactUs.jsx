@@ -9,7 +9,7 @@ const ContactUs = () => {
     <div className="text-gray-400">
       <Hero/>
       <Form/>
-      <div className="bg-gray-100 py-6 text-center text-xs">
+      <div className="bg-gray-100 dark:bg-neutral-950 py-6 text-center text-xs">
         We respond within 24-48 hours. Thank you for contacting TicketBari!
       </div>
 

@@ -44,7 +44,7 @@ const ManageTickets = () => {
       </p>
 
       <div className="overflow-x-auto w-full">
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra w-full dark:bg-white">
           <thead>
             <tr>
               <th>#</th>

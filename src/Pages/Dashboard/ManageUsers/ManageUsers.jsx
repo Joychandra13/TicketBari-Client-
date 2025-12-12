@@ -31,7 +31,7 @@ const ManageUsers = () => {
     <div className="overflow-x-auto p-6 container mx-auto">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
-      <table className="table">
+      <table className="table dark:bg-white dark:p-5">
         <thead>
           <tr>
             <th>No</th>

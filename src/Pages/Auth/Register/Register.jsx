@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { auth } from "../../../firebase/firebase.init";
 import useAxios from "../../../hooks/useAxios";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -20,67 +21,49 @@ const Register = () => {
 
   const { registerUser, updateUserProfile, setUser } = useAuth();
 
-  const handleRegister = (data) => {
-    const profileImg = data.photo[0];
+  const handleRegister = async (data) => {
+    try {
+      const profileImg = data.photo[0];
 
-    registerUser(data.email, data.password)
-      .then((result) => {
-        console.log("User created:", result.user);
+      // Register user in Firebase
+      const result = await registerUser(data.email, data.password);
 
-        // Upload image
-        const formData = new FormData();
-        formData.append("image", profileImg);
+      // Upload profile image
+      const formData = new FormData();
+      formData.append("image", profileImg);
+      const image_API_URL = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_image_host_Key
+      }`;
+      const imgRes = await axios.post(image_API_URL, formData);
+      const imageURL = imgRes.data.data.url;
 
-        const image_API_URL = `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_image_host_Key
-        }`;
+      // Save user to database
+      const userInfo = {
+        email: data.email,
+        displayName: data.name,
+        photoURL: imageURL,
+      };
+      await axiosSecure.post("/users", userInfo);
 
-        axios
-          .post(image_API_URL, formData)
-          .then((res) => {
-            const imageURL = res.data.data.url;
-            console.log("Image uploaded:", imageURL);
+      // Update Firebase profile
+      await updateUserProfile({
+        displayName: data.name,
+        photoURL: imageURL,
+      });
 
+      // Force reload Firebase user and update context
+      await auth.currentUser.reload();
+      setUser({
+        ...auth.currentUser,
+        displayName: data.name,
+        photoURL: imageURL,
+      });
 
-            // create user in the database
-            const userInfo = {
-              email: data.email,
-              displayName: data.name,
-              photoURL: imageURL,
-            };
-            axiosSecure.post("/users", userInfo).then((res) => {
-              if (res.data.insertedId) {
-                console.log("user created in the database");
-              }
-            });
-
-
-            const userProfile = {
-              displayName: data.name,
-              photoURL: imageURL,
-            };
-
-            // Update Firebase profile
-            updateUserProfile(userProfile)
-              .then(() => {
-                // Force reload Firebase user
-                auth.currentUser.reload().then(() => {
-                  // Update Context instantly
-                  setUser({
-                    ...auth.currentUser,
-                    displayName: data.name,
-                    photoURL: imageURL,
-                  });
-
-                  // Navigate home
-                  navigate(location.state || "/");
-                });
-              })
-              .catch((error) => console.log("Profile update error:", error));
-          })
-          .catch((error) => console.log("Image upload error:", error));
-      })
-      .catch((error) => console.log("Register error:", error));
+      // Navigate home
+      navigate(location.state || "/");
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
   };
 
   return (

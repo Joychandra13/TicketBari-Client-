@@ -28,7 +28,7 @@ const MyProfile = () => {
     <div className="container mx-auto mt-20 p-6  text-gray-400">
       <h1 className="title  text-center">My Profile</h1>
 
-      <div className="max-w-md mx-auto mt-6 bg-white shadow-sm shadow-gray-400 rounded-md p-6">
+      <div className="card max-w-md mx-auto mt-6 bg-white shadow-sm shadow-gray-400 rounded-md p-6">
         <div className="flex flex-col items-center">
           <img
             src={myProfile.photoURL || avatar}

@@ -24,10 +24,10 @@ const TransactionHistory = () => {
     return <p className="text-center py-10">No transactions found.</p>;
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="card container mx-auto px-4 mt-20 py-10">
       <h1 className="title text-center">Transaction History</h1>
 
-      <div className="overflow-x-auto rounded-lg border border-base-content/10 bg-base-100 mt-6">
+      <div className="overflow-x-auto rounded-lg border border-base-content/10 bg-base-100  mt-6">
         <table className="table table-zebra w-full">
           <thead>
             <tr>

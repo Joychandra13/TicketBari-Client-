@@ -2,7 +2,7 @@ import React from "react";
 
 const Join = () => {
   return (
-    <div className="bg-gray-100 py-10 text-center">
+    <div className="bg-gray-100 dark:bg-neutral-950 py-10 text-center">
       <h3 className="title">Join With TicketBari</h3>
       <p className="subTitle">
         Let’s build a smarter travel system together in Bangladesh.

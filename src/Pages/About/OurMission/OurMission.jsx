@@ -20,7 +20,7 @@ const OurMission = () => {
       </div>
 
       {/* Right Image */}
-      <div className="flex-1 border border-gray-500 order-1 md:order-2">
+      <div className="flex-1 border border-gray-500 order-1 md:order-2 bg-white">
         <DotLottieReact
           src="https://lottie.host/d8fc1e07-dfa7-4269-8b01-76cc24410052/9VzaHjDk2G.lottie"
           loop

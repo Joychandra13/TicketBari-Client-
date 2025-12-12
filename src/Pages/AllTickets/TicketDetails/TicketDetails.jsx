@@ -49,7 +49,7 @@ const TicketDetails = () => {
           className="w-full h-full object-cover rounded-lg shadow-md"
         />
 
-        <div className="flex flex-col justify-between space-y-3 text-gray-400 bg-gray-50 rounded-lg shadow-sm shadow-gray-400 p-4">
+        <div className="flex flex-col justify-between space-y-3 text-gray-400 bg-gray-50 dark:bg-neutral-900 dark:shadow-black rounded-lg shadow-sm shadow-gray-400 p-4">
           {/* Countdown */}
           <CountdownTimer departure={ticket.departure} />
 

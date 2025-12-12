@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router";
 import Logo from "../../../components/Logo";
 import useAuth from "../../../hooks/useAuth";
 import avatar from "../../../assets/avatar.png";
+import DarkModeToggle from "../../../components/DarkModeToggle";
 
 const NavBar = () => {
   const { user, logOutUser } = useAuth();
@@ -70,7 +71,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="bg-white text-gray-400 shadow-sm shadow-gray-400 fixed w-full top-0 z-50 ">
+    <div className=" bg-white dark:bg-neutral-900 dark:shadow-black text-gray-400 shadow-sm shadow-gray-400 fixed w-full top-0 z-50 ">
       <div className="navbar max-w-7xl mx-auto h-25">
         <div className="navbar-start">
           <div className="dropdown">
@@ -103,6 +104,7 @@ const NavBar = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
+          <DarkModeToggle/>
           {user ? (
             <div className="dropdown dropdown-end">
               <label

@@ -26,7 +26,7 @@ const TicketCard = ({ ticket }) => {
         <p className="text-gray-400">Perks: {ticket.perks.join(", ")}</p>
 
         <div className="card-actions justify-end mt-3">
-          <Link to={`/tickets/${ticket.id}`} className="fullWidthButton">
+          <Link to={`/ticket/${ticket._id}`} className="fullWidthButton">
             See Details
           </Link>
         </div>

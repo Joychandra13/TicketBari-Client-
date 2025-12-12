@@ -1,12 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
+import { useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import Loading from "../../../components/Loading";
 
 const AllTickets = () => {
   const axiosSecure = useAxios();
 
-  // Fetch all tickets
+  const [fromSearch, setFromSearch] = useState("");
+  const [toSearch, setToSearch] = useState("");
+  const [transportFilter, setTransportFilter] = useState("");
+  const [sortOrder, setSortOrder] = useState(""); // "asc" or "desc"
+
+  // Fetch approved tickets
   const { data: tickets = [], isLoading: loadingTickets } = useQuery({
     queryKey: ["allTickets"],
     queryFn: async () => {
@@ -15,7 +21,7 @@ const AllTickets = () => {
     },
   });
 
-  // Fetch all users to check for fraud vendors
+  // Fetch users to filter out fraud vendors
   const { data: users = [], isLoading: loadingUsers } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -24,58 +30,115 @@ const AllTickets = () => {
     },
   });
 
-  if (loadingTickets || loadingUsers) {
-    return <Loading/>;
-  }
+  if (loadingTickets || loadingUsers) return <Loading />;
 
   // Filter out tickets whose vendor is fraud
-  const filteredTickets = tickets.filter((ticket) => {
+  let filteredTickets = tickets.filter((ticket) => {
     const vendor = users.find((u) => u.email === ticket.vendorEmail);
     return !vendor?.isFraud;
   });
 
+  // --- Dynamic transport options ---
+  const transportOptions = [...new Set(filteredTickets.map(t => t.transport))];
+
+  // Apply From & To search
+  if (fromSearch) {
+    filteredTickets = filteredTickets.filter(t =>
+      t.from.toLowerCase().includes(fromSearch.toLowerCase())
+    );
+  }
+
+  if (toSearch) {
+    filteredTickets = filteredTickets.filter(t =>
+      t.to.toLowerCase().includes(toSearch.toLowerCase())
+    );
+  }
+
+  // Apply transport filter
+  if (transportFilter) {
+    filteredTickets = filteredTickets.filter(t => t.transport === transportFilter);
+  }
+
+  // Apply sort
+  if (sortOrder) {
+    filteredTickets.sort((a, b) =>
+      sortOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto mt-20 pt-20 pb-10 px-6">
-      <h1 className="title">View All Tickets</h1>
-      <p className="subTitle">
-        Browse through all available tickets and see details for each trip.
+      <h1 className="title">All Tickets</h1>
+      <p className="subTitle mb-6">
+        Browse all available tickets and filter by location, transport, and price.
       </p>
+
+      {/* Search / Filter / Sort */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search From"
+          value={fromSearch}
+          onChange={(e) => setFromSearch(e.target.value)}
+          className="input input-bordered w-full md:w-1/4"
+        />
+        <input
+          type="text"
+          placeholder="Search To"
+          value={toSearch}
+          onChange={(e) => setToSearch(e.target.value)}
+          className="input input-bordered w-full md:w-1/4"
+        />
+        <select
+          value={transportFilter}
+          onChange={(e) => setTransportFilter(e.target.value)}
+          className="select select-bordered w-full md:w-1/4"
+        >
+          <option value="">All Transports</option>
+          {transportOptions.map((transport) => (
+            <option key={transport} value={transport}>
+              {transport}
+            </option>
+          ))}
+        </select>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          className="select select-bordered w-full md:w-1/4"
+        >
+          <option value="">Sort by Price</option>
+          <option value="asc">Low to High</option>
+          <option value="desc">High to Low</option>
+        </select>
+      </div>
+
+      {/* Tickets Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredTickets.length > 0 ? (
           filteredTickets.map((ticket) => (
             <div
               key={ticket._id}
-              className="rounded-lg shadow-sm shadow-gray-400 bg-white"
+              className="card rounded-lg shadow-sm shadow-gray-400 bg-white hover:bg-gray-50 duration-300"
             >
-              {/* Image */}
               <img
                 src={ticket.image || ticket.img}
                 alt={ticket.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover rounded-t-lg"
               />
-
-              {/* Content */}
               <div className="p-4 space-y-2">
                 <h2 className="text-xl font-semibold text-gray-400">
                   {ticket.title}
                 </h2>
-
-                <p className="text-gray-400">
-                  {ticket.from} → {ticket.to} → Transport: {ticket.transport}
+                <p className="text-gray-500">
+                  {ticket.from} → {ticket.to} | Transport: {ticket.transport}
                 </p>
-                <p className="text-gray-400">
-                  Price: BDT {ticket.price} and Quantity: {ticket.quantity}
+                <p className="text-gray-500">
+                  Price: BDT {ticket.price} | Quantity: {ticket.quantity}
                 </p>
-
-                {/* Perks */}
-                <p className="text-gray-400">
-                  Perks:{" "}
-                  {Array.isArray(ticket.perks)
-                    ? ticket.perks.join(", ")
-                    : ticket.perks}
+                <p className="text-gray-500">
+                  Perks: {Array.isArray(ticket.perks) ? ticket.perks.join(", ") : ticket.perks}
                 </p>
-
-                <p className="text-gray-400">
+                <p className="text-gray-500">
                   Departure:{" "}
                   {new Date(ticket.departure).toLocaleString("en-BD", {
                     timeZone: "Asia/Dhaka",
@@ -86,8 +149,6 @@ const AllTickets = () => {
                     minute: "2-digit",
                   })}
                 </p>
-
-                {/* Details button */}
                 <Link to={`/ticket/${ticket._id}`}>
                   <button className="mt-3 fullWidthButton">See Details</button>
                 </Link>
@@ -96,7 +157,7 @@ const AllTickets = () => {
           ))
         ) : (
           <p className="text-center col-span-full text-gray-500">
-            No tickets available.
+            No tickets found.
           </p>
         )}
       </div>

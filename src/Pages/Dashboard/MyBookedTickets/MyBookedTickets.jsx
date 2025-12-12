@@ -40,7 +40,7 @@ const MyBookedTickets = () => {
         {bookings.map((b) => (
           <div
             key={b._id}
-            className="bg-white rounded shadow-sm shadow-gray-400 p-4 flex flex-col text-gray-400"
+            className="card bg-white rounded shadow-sm shadow-gray-400 p-4 flex flex-col text-gray-400"
           >
             <h2 className="text-lg font-bold mt-2">
               {b.ticketTitle}{" "}

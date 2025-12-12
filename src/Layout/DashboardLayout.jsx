@@ -10,6 +10,7 @@ import { VscRequestChanges } from "react-icons/vsc";
 import { Link, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
 import { RiAdvertisementFill } from "react-icons/ri";
+import DarkModeToggle from "../components/DarkModeToggle";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -18,29 +19,33 @@ const DashboardLayout = () => {
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Navbar */}
-        <nav className="navbar w-full bg-white text-gray-400 shadow-sm shadow-gray-400">
-          <label
-            htmlFor="my-drawer-4"
-            aria-label="open sidebar"
-            className="btn btn-square btn-ghost text-gray-500"
-          >
-            {/* Sidebar toggle icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-              className="my-1.5 inline-block size-4"
+        <nav className="navbar w-full bg-white dark:bg-neutral-900 dark:shadow-black text-gray-400 shadow-sm shadow-gray-400 flex justify-between">
+          <div className="flex items-center">
+            <label
+              htmlFor="my-drawer-4"
+              aria-label="open sidebar"
+              className="btn btn-square btn-ghost text-gray-500"
             >
-              <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-              <path d="M9 4v16"></path>
-              <path d="M14 10l2 2l-2 2"></path>
-            </svg>
-          </label>
-          <div className="px-4 text-gray-500">Ticket Bari Dashboard</div>
+              {/* Sidebar toggle icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2"
+                fill="none"
+                stroke="currentColor"
+                className="my-1.5 inline-block size-4"
+              >
+                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                <path d="M9 4v16"></path>
+                <path d="M14 10l2 2l-2 2"></path>
+              </svg>
+            </label>
+            <div className="px-4 text-gray-500">Ticket Bari Dashboard</div>
+          </div>
+
+          <DarkModeToggle />
         </nav>
 
         {/* Page content here */}
@@ -53,7 +58,7 @@ const DashboardLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="flex min-h-full flex-col items-start bg-white text-gray-500 shadow-sm shadow-gray-400 is-drawer-close:w-14 is-drawer-open:w-64">
+        <div className="flex min-h-full flex-col items-start bg-white dark:bg-neutral-900 dark:shadow-black text-gray-500 shadow-sm shadow-gray-400 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
             {/* List item */}
@@ -81,39 +86,38 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-
-            {
-              role === "user" && <>
-              <li>
-              <Link
-                to="/dashboard/my-booked-tickets"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="My Booked Tickets"
-              >
-                {/*icon */}
-                <LuTicketPlus />
-                <span className="is-drawer-close:hidden">
-                  My Booked Tickets
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dashboard/transaction-history"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Transaction History"
-              >
-                {/*icon */}
-                <MdPayments />
-                <span className="is-drawer-close:hidden">
-                  Transaction History
-                </span>
-              </Link>
-            </li>
+            {role === "user" && (
+              <>
+                <li>
+                  <Link
+                    to="/dashboard/my-booked-tickets"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Booked Tickets"
+                  >
+                    {/*icon */}
+                    <LuTicketPlus />
+                    <span className="is-drawer-close:hidden">
+                      My Booked Tickets
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/transaction-history"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Transaction History"
+                  >
+                    {/*icon */}
+                    <MdPayments />
+                    <span className="is-drawer-close:hidden">
+                      Transaction History
+                    </span>
+                  </Link>
+                </li>
               </>
-            }
+            )}
 
-            {role === "vendor" && 
+            {role === "vendor" && (
               <>
                 <li>
                   <Link
@@ -167,48 +171,49 @@ const DashboardLayout = () => {
                   </Link>
                 </li>
               </>
-            }
+            )}
 
-
-            {
-              role === 'admin' && <>
-              <li>
-              <Link
-                to="/dashboard/manage-users"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="RevenueOverview"
-              >
-                {/*icon */}
-                <FaUserGear />
-                <span className="is-drawer-close:hidden">Manage Users</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dashboard/manage-tickets"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Manage Tickets"
-              >
-                {/*icon */}
-                <IoTicketSharp />
-                <span className="is-drawer-close:hidden">Manage Tickets</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dashboard/advertise-tickets"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Advertise Tickets"
-              >
-                {/*icon */}
-                <RiAdvertisementFill />
-                <span className="is-drawer-close:hidden">Advertise Tickets</span>
-              </Link>
-            </li>
-
+            {role === "admin" && (
+              <>
+                <li>
+                  <Link
+                    to="/dashboard/manage-users"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="RevenueOverview"
+                  >
+                    {/*icon */}
+                    <FaUserGear />
+                    <span className="is-drawer-close:hidden">Manage Users</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/manage-tickets"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Tickets"
+                  >
+                    {/*icon */}
+                    <IoTicketSharp />
+                    <span className="is-drawer-close:hidden">
+                      Manage Tickets
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/dashboard/advertise-tickets"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Advertise Tickets"
+                  >
+                    {/*icon */}
+                    <RiAdvertisementFill />
+                    <span className="is-drawer-close:hidden">
+                      Advertise Tickets
+                    </span>
+                  </Link>
+                </li>
               </>
-            }
-            
+            )}
           </ul>
         </div>
       </div>

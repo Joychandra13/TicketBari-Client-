@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import TicketCard from "../../../components/TicketCard";
 import useAxios from "../../../hooks/useAxios";
+import Loading from "../../../components/Loading";
 
 const AdvertisementSection = () => {
   const axiosSecure = useAxios();
@@ -16,7 +17,7 @@ const AdvertisementSection = () => {
   });
 
   if (isLoading) {
-    return <p className="text-center py-10">Loading Featured Tickets...</p>;
+    return <Loading/>;
   }
 
   if (!tickets.length) {
