@@ -9,6 +9,7 @@ import { MdPayments } from "react-icons/md";
 import { VscRequestChanges } from "react-icons/vsc";
 import { Link, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
+import { RiAdvertisementFill } from "react-icons/ri";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -191,6 +192,17 @@ const DashboardLayout = () => {
                 {/*icon */}
                 <IoTicketSharp />
                 <span className="is-drawer-close:hidden">Manage Tickets</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/advertise-tickets"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Advertise Tickets"
+              >
+                {/*icon */}
+                <RiAdvertisementFill />
+                <span className="is-drawer-close:hidden">Advertise Tickets</span>
               </Link>
             </li>
 
