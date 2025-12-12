@@ -3,7 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaChartPie, FaHistory, FaHome } from "react-icons/fa";
 import { FaUserGear } from "react-icons/fa6";
 import { IoMdAddCircle } from "react-icons/io";
-import { IoTicket } from "react-icons/io5";
+import { IoTicket, IoTicketSharp } from "react-icons/io5";
 import { LuTicketPlus } from "react-icons/lu";
 import { MdPayments } from "react-icons/md";
 import { VscRequestChanges } from "react-icons/vsc";
@@ -182,6 +182,18 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Manage Users</span>
               </Link>
             </li>
+            <li>
+              <Link
+                to="/dashboard/manage-tickets"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Manage Tickets"
+              >
+                {/*icon */}
+                <IoTicketSharp />
+                <span className="is-drawer-close:hidden">Manage Tickets</span>
+              </Link>
+            </li>
+
               </>
             }
             

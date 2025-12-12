@@ -10,7 +10,7 @@ const AllTickets = () => {
   const { data: tickets = [], isLoading: loadingTickets } = useQuery({
     queryKey: ["allTickets"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/tickets");
+      const res = await axiosSecure.get("/tickets/approved");
       return res.data;
     },
   });
