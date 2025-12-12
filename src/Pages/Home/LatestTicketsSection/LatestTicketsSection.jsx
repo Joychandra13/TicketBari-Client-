@@ -1,65 +1,26 @@
 import React from "react";
-import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../../hooks/useAxios";
 import TicketCard from "../../../components/TicketCard";
 
-const latestTickets = [
-  {
-    id: 7,
-    title: "Dhaka to Comilla Bus",
-    image: "https://ik.imagekit.io/joy1414/download%20(2).jpeg",
-    price: 400,
-    quantity: 45,
-    transport: "Bus",
-    perks: ["WiFi", "AC"],
-  },
-  {
-    id: 8,
-    title: "Dhaka to Rangpur Train",
-    image: "https://ik.imagekit.io/joy1414/download%20(3).jpeg",
-    price: 600,
-    quantity: 100,
-    transport: "Train",
-    perks: ["AC", "Meals Included"],
-  },
-  {
-    id: 9,
-    title: "Dhaka to Bhola Launch",
-    image: "https://ik.imagekit.io/joy1414/download%20(4).jpeg",
-    price: 350,
-    quantity: 50,
-    transport: "Launch",
-    perks: ["Refreshments", "Life Jackets"],
-  },
-  {
-    id: 10,
-    title: "Dhaka to Sylhet Flight",
-    image: "https://ik.imagekit.io/joy1414/download%20(5).jpeg",
-    price: 3600,
-    quantity: 120,
-    transport: "Plane",
-    perks: ["Meal", "Baggage Included"],
-  },
-  {
-    id: 11,
-    title: "Dhaka to Pabna Bus",
-    image: "https://ik.imagekit.io/joy1414/download%20(6).jpeg",
-    price: 450,
-    quantity: 60,
-    transport: "Bus",
-    perks: ["WiFi", "AC"],
-  },
-  {
-    id: 12,
-    title: "Dhaka to Tangail Train",
-    image: "https://ik.imagekit.io/joy1414/download%20(7).jpeg",
-    price: 550,
-    quantity: 90,
-    transport: "Train",
-    perks: ["AC", "Meals Included"],
-  },
-];
-
 const LatestTicketsSection = () => {
+  const axiosSecure = useAxios();
+
+  const { data: tickets = [], isLoading } = useQuery({
+    queryKey: ["approvedTickets"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/tickets/approved");
+      return res.data;
+    },
+  });
+
+  if (isLoading) return <p className="text-center py-10">Loading...</p>;
+
+  // Sort by creation date descending and get latest 6 tickets
+  const latestTickets = tickets
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 6);
+
   return (
     <section className="max-w-7xl mx-auto pt-10 pb-20 px-6">
       <div className="mb-10">
@@ -72,7 +33,7 @@ const LatestTicketsSection = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {latestTickets.map((ticket) => (
           <div
-            key={ticket.id}
+            key={ticket._id}
             className="card rounded-md shadow-sm shadow-gray-400 hover:bg-gray-50 duration-300"
           >
             <TicketCard ticket={ticket} />

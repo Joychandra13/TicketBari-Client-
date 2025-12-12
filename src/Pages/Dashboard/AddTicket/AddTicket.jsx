@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 import useAxios from "../../../hooks/useAxios";
 import axios from "axios";
+import Loading from "../../../components/Loading";
 
 const imageHostKey = import.meta.env.VITE_image_host_Key;
 
@@ -29,7 +30,7 @@ function AddTicket() {
     if (user?.email) fetchUsers();
   }, [user, axiosSecure]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading/>;
 
   if (isFraud) {
     return (
