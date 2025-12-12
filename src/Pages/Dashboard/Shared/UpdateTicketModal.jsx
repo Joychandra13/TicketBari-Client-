@@ -67,7 +67,7 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white rounded-md shadow-sm shadow-gray-400 w-full max-w-2xl p-6 relative">
+      <div className="card bg-white rounded-md shadow-sm shadow-gray-400 w-full max-w-2xl p-6 relative">
         <button
           onClick={() => {
             setIsOpen(false);

@@ -71,11 +71,14 @@ const RevenueOverview = () => {
       amount: b.price * b.quantity,
     }));
 
-  // Tickets sold chart
-  const ticketsChartData = vendorBookings.map((b) => ({
+  // Tickets sold chart (only paid bookings)
+  const ticketsChartData = vendorBookings
+  .filter((b) => b.status === "paid")
+  .map((b) => ({
     title: b.ticketTitle,
     quantity: b.quantity,
   }));
+
 
   return (
     <div className="container mx-auto px-4 py-10">

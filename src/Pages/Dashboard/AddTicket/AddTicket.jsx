@@ -68,11 +68,11 @@ function AddTicket() {
       };
 
       await axiosSecure.post("/tickets", ticket);
-      alert("Ticket Added Successfully!");
+      Swal.fire("Success", "Ticket Added Successfully!", "success");
       reset();
     } catch (err) {
       console.error("Error adding ticket:", err);
-      alert("Failed to add ticket. Please try again.");
+      Swal.fire("Error", "Failed to add ticket. Please try again.", "error");
     }
   };
 
