@@ -12,12 +12,28 @@ const MyAddedTickets = () => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const modalRef = useRef();
 
-  const { data: tickets = [], refetch } = useQuery({
+  // Fetch my tickets
+  const { data: tickets = [], refetch: refetchTickets } = useQuery({
     queryKey: ["myAddedTickets", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/tickets?email=${user.email}`);
       return res.data;
     },
+  });
+
+  // Fetch all users (to check isFraud)
+  const { data: users = [] } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/users");
+      return res.data;
+    },
+  });
+
+  // Filter out tickets whose vendor is fraud
+  const filteredTickets = tickets.filter((ticket) => {
+    const vendor = users.find(u => u.email === ticket.vendorEmail);
+    return !vendor?.isFraud;
   });
 
   // Open modal for updating a ticket
@@ -33,7 +49,7 @@ const MyAddedTickets = () => {
       const res = await axiosSecure.put(`/tickets/${_id}`, data);
       if (res.data.success) {
         Swal.fire("Updated!", "Ticket updated successfully!", "success");
-        refetch();
+        refetchTickets();
       }
     } catch (error) {
       console.error("Update error:", error);
@@ -56,7 +72,7 @@ const MyAddedTickets = () => {
         const res = await axiosSecure.delete(`/tickets/${ticketId}`);
         if (res.data.deletedCount) {
           Swal.fire("Deleted!", "Ticket has been deleted!", "success");
-          refetch();
+          refetchTickets();
         }
       }
     });
@@ -70,7 +86,7 @@ const MyAddedTickets = () => {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tickets.map((ticket) => (
+        {filteredTickets.map((ticket) => (
           <MyAddedTicketsCard
             key={ticket._id}
             ticket={ticket}
@@ -78,6 +94,11 @@ const MyAddedTickets = () => {
             handleDelete={handleDelete}
           />
         ))}
+        {filteredTickets.length === 0 && (
+          <p className="text-center col-span-full text-gray-500">
+            No tickets to display.
+          </p>
+        )}
       </div>
 
       <UpdateTicketModal

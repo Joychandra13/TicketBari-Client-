@@ -28,11 +28,11 @@ const Payment = () => {
 
   const handlePayment = async () => {
     const paymentInfo = {
-      price: ticket.price, // must exist
-      quantity: ticket.quantity, // must exist
-      ticketTitle: ticket.ticketTitle, // must exist
-      ticketId: ticket.ticketId, // must exist
-      bookingId: ticket._id, // must exist
+      price: ticket.price,
+      quantity: ticket.quantity,
+      ticketTitle: ticket.ticketTitle,
+      ticketId: ticket.ticketId,
+      bookingId: ticket._id,
       userEmail: user?.email,
     };
 

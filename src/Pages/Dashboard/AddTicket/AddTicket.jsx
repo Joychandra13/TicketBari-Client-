@@ -14,18 +14,19 @@ function AddTicket() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!user?.email) return;
+    const fetchUsers = async () => {
       try {
-        const res = await axiosSecure.get(`/users/${user.email}`);
-        setIsFraud(res.data.isFraud);
+        const res = await axiosSecure.get("/users"); // fetch all users
+        const currentUser = res.data.find(u => u.email === user?.email);
+        if (currentUser) setIsFraud(currentUser.isFraud);
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
-    fetchUser();
+
+    if (user?.email) fetchUsers();
   }, [user, axiosSecure]);
 
   if (loading) return <p>Loading...</p>;
@@ -59,8 +60,8 @@ function AddTicket() {
         departure: data.departure,
         perks: data.perks || [],
         image: imgData.data.display_url,
-        vendorName: user?.displayName,
-        vendorEmail: user?.email,
+        vendorName: user.displayName,
+        vendorEmail: user.email,
         status: "pending",
         createdAt: new Date(),
       };
@@ -70,6 +71,7 @@ function AddTicket() {
       reset();
     } catch (err) {
       console.error("Error adding ticket:", err);
+      alert("Failed to add ticket. Please try again.");
     }
   };
 
@@ -79,16 +81,12 @@ function AddTicket() {
       <p className="subTitle text-center">Fill in the ticket details below</p>
       <div className="w-full max-w-2xl mx-auto card rounded-md shadow-sm shadow-gray-400 duration-300">
         <div className="card-body">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="fieldset space-y-3"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="fieldset space-y-3">
             <input
               {...register("title", { required: true })}
               placeholder="Ticket Title"
               className="input w-full"
             />
-
             <div className="flex gap-3">
               <input
                 {...register("from", { required: true })}
@@ -101,7 +99,6 @@ function AddTicket() {
                 className="input w-1/2"
               />
             </div>
-
             <select
               {...register("transport", { required: true })}
               className="select select-bordered w-full"
@@ -112,7 +109,6 @@ function AddTicket() {
               <option>Ship</option>
               <option>Air</option>
             </select>
-
             <div className="flex gap-3">
               <input
                 type="number"
@@ -127,13 +123,11 @@ function AddTicket() {
                 className="input w-full"
               />
             </div>
-
             <input
               type="datetime-local"
               {...register("departure", { required: true })}
               className="input w-full"
             />
-
             <div className="space-y-1">
               <label className="font-semibold block">Perks</label>
               <div className="flex gap-3">
@@ -141,39 +135,30 @@ function AddTicket() {
                   <input type="checkbox" value="AC" {...register("perks")} /> AC
                 </label>
                 <label>
-                  <input
-                    type="checkbox"
-                    value="Breakfast"
-                    {...register("perks")}
-                  />{" "}
-                  Breakfast
+                  <input type="checkbox" value="Breakfast" {...register("perks")} /> Breakfast
                 </label>
                 <label>
-                  <input type="checkbox" value="WiFi" {...register("perks")} />{" "}
-                  WiFi
+                  <input type="checkbox" value="WiFi" {...register("perks")} /> WiFi
                 </label>
               </div>
             </div>
-
             <input
               type="file"
               {...register("image", { required: true })}
               className="file-input w-full text-gray-400"
             />
-
             <div className="flex flex-col md:flex-row gap-3">
               <input
                 readOnly
-                value={user?.displayName || ""}
+                value={user.displayName || ""}
                 className="input w-full bg-base-200"
               />
               <input
                 readOnly
-                value={user?.email || ""}
+                value={user.email || ""}
                 className="input w-full bg-base-200"
               />
             </div>
-
             <button type="submit" className="fullWidthButton mt-2">
               Add Ticket
             </button>
