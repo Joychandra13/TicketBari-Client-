@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 import useAxios from "../../../hooks/useAxios";
 import axios from "axios";
 import Loading from "../../../components/Loading";
+import Swal from "sweetalert2";
 
 const imageHostKey = import.meta.env.VITE_image_host_Key;
 
