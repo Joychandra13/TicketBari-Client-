@@ -137,9 +137,9 @@ const RevenueOverview = () => {
             Tickets Sold
           </h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={ticketsChartData}>
+            <BarChart data={ticketsChartData} >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="title" />
+              <XAxis dataKey="title" tick={false}/>
               <YAxis />
               <Tooltip />
               <Bar dataKey="quantity" fill="#3B82F6" />

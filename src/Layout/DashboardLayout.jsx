@@ -49,7 +49,9 @@ const DashboardLayout = () => {
         </nav>
 
         {/* Page content here */}
-        <Outlet></Outlet>
+        <div className="overflow-hidden">
+          <Outlet></Outlet>
+        </div>
       </div>
 
       <div className="drawer-side shadow-gray-400  shadow-sm is-drawer-close:overflow-visible">
