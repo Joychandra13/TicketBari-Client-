@@ -161,7 +161,7 @@ const DashboardLayout = () => {
                   <Link
                     to="/dashboard/revenue-overview"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="RevenueOverview"
+                    data-tip="Revenue Overview"
                   >
                     {/*icon */}
                     <FaChartPie />
@@ -179,7 +179,7 @@ const DashboardLayout = () => {
                   <Link
                     to="/dashboard/manage-users"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="RevenueOverview"
+                    data-tip="Manage Users"
                   >
                     {/*icon */}
                     <FaUserGear />
