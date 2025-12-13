@@ -105,7 +105,7 @@ const MyAddedTickets = () => {
         ref={modalRef}
         ticket={selectedTicket}
         onSave={handleUpdateSave}
-        onClose={() => setSelectedTicket(null)} // reset selected ticket on close
+        onClose={() => setSelectedTicket(null)}
       />
     </div>
   );

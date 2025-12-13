@@ -5,6 +5,7 @@ import { useState } from "react";
 import CountdownTimer from "../../../components/CountdownTimer";
 import BookTicketModal from "../BookTicketModal/BookTicketModal";
 import useAuth from "../../../hooks/useAuth"; // assuming you have a hook for user info
+import Loading from "../../../components/Loading";
 
 const TicketDetails = () => {
   const { id } = useParams();
@@ -32,7 +33,7 @@ const TicketDetails = () => {
     enabled: !!user?.email,
   });
 
-  if (isLoading) return <p className="text-center py-10">Loading...</p>;
+  if (isLoading) return <Loading/>;
   if (!ticket) return <p className="text-center py-10">Ticket not found!</p>;
 
   const now = new Date();

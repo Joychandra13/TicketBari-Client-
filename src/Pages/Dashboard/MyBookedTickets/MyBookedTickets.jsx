@@ -4,6 +4,7 @@ import useAxios from "../../../hooks/useAxios";
 import BookedCountdownTimer from "../../../components/BookedCountdownTimer";
 import { Link } from "react-router";
 import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
+import Loading from "../../../components/Loading";
 
 const MyBookedTickets = () => {
   const { user } = useContext(AuthContext); // Get logged-in user
@@ -24,7 +25,7 @@ const MyBookedTickets = () => {
     enabled: !!user?.email, // Only run if user email exists
   });
 
-  if (isLoading) return <p className="text-center py-10">Loading...</p>;
+  if (isLoading) return <Loading/>;
   if (!bookings.length)
     return (
       <p className="text-center text-gray-400 py-10">
@@ -40,7 +41,7 @@ const MyBookedTickets = () => {
         {bookings.map((b) => (
           <div
             key={b._id}
-            className="card bg-white rounded shadow-sm shadow-gray-400 p-4 flex flex-col text-gray-400"
+            className="card bg-white rounded shadow-sm shadow-gray-400 p-4 flex flex-col justify-between text-gray-400"
           >
             <h2 className="text-lg font-bold mt-2">
               {b.ticketTitle}{" "}

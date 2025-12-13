@@ -11,6 +11,8 @@ const AllTickets = () => {
   const [toSearch, setToSearch] = useState("");
   const [transportFilter, setTransportFilter] = useState("");
   const [sortOrder, setSortOrder] = useState(""); // "asc" or "desc"
+  const [currentPage, setCurrentPage] = useState(1);
+  const ticketsPerPage = 6;
 
   // Fetch approved tickets
   const { data: tickets = [], isLoading: loadingTickets } = useQuery({
@@ -38,7 +40,7 @@ const AllTickets = () => {
     return !vendor?.isFraud;
   });
 
-  // --- Dynamic transport options ---
+  // Dynamic transport options
   const transportOptions = [...new Set(filteredTickets.map(t => t.transport))];
 
   // Apply From & To search
@@ -47,7 +49,6 @@ const AllTickets = () => {
       t.from.toLowerCase().includes(fromSearch.toLowerCase())
     );
   }
-
   if (toSearch) {
     filteredTickets = filteredTickets.filter(t =>
       t.to.toLowerCase().includes(toSearch.toLowerCase())
@@ -65,6 +66,20 @@ const AllTickets = () => {
       sortOrder === "asc" ? a.price - b.price : b.price - a.price
     );
   }
+
+  // Pagination calculation
+  const totalPages = Math.ceil(filteredTickets.length / ticketsPerPage);
+  const paginatedTickets = filteredTickets.slice(
+    (currentPage - 1) * ticketsPerPage,
+    currentPage * ticketsPerPage
+  );
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
 
   return (
     <div className="max-w-7xl mx-auto mt-20 pt-20 pb-10 px-6">
@@ -114,8 +129,8 @@ const AllTickets = () => {
 
       {/* Tickets Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTickets.length > 0 ? (
-          filteredTickets.map((ticket) => (
+        {paginatedTickets.length > 0 ? (
+          paginatedTickets.map((ticket) => (
             <div
               key={ticket._id}
               className="card rounded-lg shadow-sm shadow-gray-400 bg-white hover:bg-gray-50 duration-300"
@@ -126,9 +141,7 @@ const AllTickets = () => {
                 className="w-full h-48 object-cover rounded-t-lg"
               />
               <div className="p-4 space-y-2">
-                <h2 className="text-xl font-semibold text-gray-400">
-                  {ticket.title}
-                </h2>
+                <h2 className="text-xl font-semibold text-gray-400">{ticket.title}</h2>
                 <p className="text-gray-500">
                   {ticket.from} → {ticket.to} | Transport: {ticket.transport}
                 </p>
@@ -161,6 +174,26 @@ const AllTickets = () => {
           </p>
         )}
       </div>
+
+      {/* Pagination */}
+      {filteredTickets.length > ticketsPerPage && (
+        <div className="flex justify-between mt-6">
+          <button
+            className=" w-fit btn btn-outline "
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            Previous page
+          </button>
+          <button
+            className=" w-fit btn btn-outline "
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next page
+          </button>
+        </div>
+      )}
     </div>
   );
 };

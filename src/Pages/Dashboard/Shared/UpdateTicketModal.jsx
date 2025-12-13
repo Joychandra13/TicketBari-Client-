@@ -1,4 +1,9 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { useForm } from "react-hook-form";
 
 const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
@@ -29,9 +34,21 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
         price: ticket.price || "",
         quantity: ticket.quantity || "",
         departure: ticket.departure?.slice(0, 16) || "",
-        perks: ticket.perks || [],
+        perks: ticket.perks || [], // ✅ reset perks correctly
       });
       setImageUrl(ticket.image || "");
+    } else {
+      reset({
+        title: "",
+        from: "",
+        to: "",
+        transport: "",
+        price: "",
+        quantity: "",
+        departure: "",
+        perks: [],
+      });
+      setImageUrl("");
     }
   }, [ticket, reset]);
 
@@ -43,7 +60,9 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
     formData.append("image", file);
     try {
       const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_Key}`,
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host_Key
+        }`,
         { method: "POST", body: formData }
       );
       const data = await res.json();
@@ -79,15 +98,33 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
         </button>
         <h2 className="text-xl text-gray-400 font-bold mb-2">Update Ticket</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 text-gray-500">
-          <input {...register("title")} placeholder="Ticket Title" className="input w-full" />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-3 text-gray-500"
+        >
+          <input
+            {...register("title")}
+            placeholder="Ticket Title"
+            className="input w-full"
+          />
 
           <div className="flex gap-3">
-            <input {...register("from")} placeholder="From" className="input w-1/2" />
-            <input {...register("to")} placeholder="To" className="input w-1/2" />
+            <input
+              {...register("from")}
+              placeholder="From"
+              className="input w-1/2"
+            />
+            <input
+              {...register("to")}
+              placeholder="To"
+              className="input w-1/2"
+            />
           </div>
 
-          <select {...register("transport")} className="select select-bordered w-full">
+          <select
+            {...register("transport")}
+            className="select select-bordered w-full"
+          >
             <option value="">Select Transport</option>
             <option>Bus</option>
             <option>Train</option>
@@ -96,11 +133,25 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
           </select>
 
           <div className="flex gap-3">
-            <input type="number" {...register("price")} placeholder="Price" className="input w-full" />
-            <input type="number" {...register("quantity")} placeholder="Quantity" className="input w-full" />
+            <input
+              type="number"
+              {...register("price")}
+              placeholder="Price"
+              className="input w-full"
+            />
+            <input
+              type="number"
+              {...register("quantity")}
+              placeholder="Quantity"
+              className="input w-full"
+            />
           </div>
 
-          <input type="datetime-local" {...register("departure")} className="input w-full" />
+          <input
+            type="datetime-local"
+            {...register("departure")}
+            className="input w-full"
+          />
 
           <div className="space-y-1">
             <label className="font-semibold block">Perks</label>
@@ -115,7 +166,9 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
                     onChange={(e) =>
                       setValue(
                         "perks",
-                        e.target.checked ? [...perks, perk] : perks.filter((p) => p !== perk)
+                        e.target.checked
+                          ? [...perks, perk]
+                          : perks.filter((p) => p !== perk)
                       )
                     }
                   />{" "}
@@ -125,10 +178,20 @@ const UpdateTicketModal = forwardRef(({ ticket, onSave, onClose }, ref) => {
             </div>
           </div>
 
-          {imageUrl && <img src={imageUrl} className="h-20 rounded-md" alt="ticket" />}
-          <input type="file" onChange={(e) => handleImageUpload(e.target.files[0])} className="file-input w-full" />
+          {imageUrl && (
+            <img src={imageUrl} className="h-20 rounded-md" alt="ticket" />
+          )}
+          <input
+            type="file"
+            onChange={(e) => handleImageUpload(e.target.files[0])}
+            className="file-input w-full"
+          />
 
-          <button type="submit" className="fullWidthButton" disabled={uploading}>
+          <button
+            type="submit"
+            className="fullWidthButton"
+            disabled={uploading}
+          >
             {uploading ? "Uploading..." : "Save Changes"}
           </button>
         </form>
